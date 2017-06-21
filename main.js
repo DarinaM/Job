@@ -62,7 +62,7 @@
            gridArray=[]; 
        }
    }
- 	function showBuffer(bufferedGeometries){
+	function showBuffer(bufferedGeometries){
 		arrayUtils.forEach(bufferedGeometries, function (geometry) {
 		var bufferedGeometry = new Graphic(geometry, bufferSymb);
 		map.graphics.add(bufferedGeometry);  
