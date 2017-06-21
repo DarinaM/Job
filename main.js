@@ -49,8 +49,8 @@ var scalebar = new Scalebar({
             clearGraphics();
             map.graphics.remove(bufferGeom);
         } 
-        var xLong=Number($('#txtLong').val());
-        var yLat=Number($('#txtLat').val());                   
+        var xLong=Number($("#txtLong").val());
+        var yLat=Number($("#txtLat").val());                   
         
        //var point = new Point([-77.468,38.854],new SpatialReference({ wkid:4326 }));
        var point = new Point([xLong,yLat],new SpatialReference({ wkid:4326 }));
@@ -58,7 +58,7 @@ var scalebar = new Scalebar({
    });
    function createBuffer(point){ //
        var params = new BufferParameters();
-       params.distances = [Number($('#txtRadius').val())];
+       params.distances = [Number($("#txtRadius").val())];
        params.geodesic=true;
        params.outSpatialReference = map.spatialReference;
        params.unit = GeometryService.UNIT_METER;
@@ -74,7 +74,7 @@ var scalebar = new Scalebar({
        });
        clearGraphics();
        queryGrids();
-   };
+   }
    function queryGrids(){
        var qryObj=new Query();
        qryObj.where="OBJECTID>0";  
@@ -152,7 +152,7 @@ var scalebar = new Scalebar({
             for(var i=0;i<featureSet.features.length;i++){
                 popCount+=featureSet.features[i]["attributes"].Population;
                 conlevel+=featureSet.features[i]["attributes"].Confidence;
-                console.log(gridStats[i]);
+            
             } 
             obj.fCnt=featureSet.features.length;
             obj.pCnt=popCount;
@@ -181,11 +181,11 @@ var scalebar = new Scalebar({
             Confidence=0.20;
         }
        var colors = [
-            [0, 108, 0,Confidence],//0green
-            [255,255,0,Confidence],//1yellow
-            [255, 127, 0,Confidence],//2red
-	    [255, 0, 0,Confidence] //3red
-            ];
+	[0, 108, 0,Confidence],//0green
+	[255,255,0,Confidence],//1yellow
+	[255, 127, 0,Confidence],//2red
+	[255, 0, 0,Confidence] //3red
+	];
             var gridSymbol,index=0;
             if(pCnt>=1 && pCnt<10){
                 index=0;
