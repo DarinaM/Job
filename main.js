@@ -41,6 +41,24 @@
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([105, 105, 255]),2), new Color([255, 255, 0, 0.25]));
     var gridSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([255, 122, 0]),2), new Color([255, 122, 0, 0.5]));
     var bufferGeom=null;
+	
+	function clearGraphics(){
+       if(gridArray.length>0){
+           for(var i=0;i<gridArray.length;i++){
+               map.graphics.remove(gridArray[i]);
+           }
+           gridArray=[]; 
+       }
+   }
+	function createBuffer(point){ //
+       var params = new BufferParameters();
+       params.distances = [Number($("#txtRadius").val())];
+       params.geodesic=true;
+       params.outSpatialReference = map.spatialReference;
+       params.unit = GeometryService.UNIT_METER;
+       params.geometries = [point];
+       esriConfig.defaults.geometryService.buffer(params, showBuffer);                    
+   }	
     $("#btnBuffer").click(function(){                    
         if(bufferGeom!=null){
             clearGraphics();
@@ -53,15 +71,6 @@
        var point = new Point([xLong,yLat],new SpatialReference({ wkid:4326 }));
        createBuffer(point);
    });
-   
-	function clearGraphics(){
-       if(gridArray.length>0){
-           for(var i=0;i<gridArray.length;i++){
-               map.graphics.remove(gridArray[i]);
-           }
-           gridArray=[]; 
-       }
-   }
 	function showBuffer(bufferedGeometries){
 		arrayUtils.forEach(bufferedGeometries, function (geometry) {
 		var bufferedGeometry = new Graphic(geometry, bufferSymb);
@@ -72,30 +81,13 @@
        clearGraphics();
        queryGrids();
    }
-	function createBuffer(point){ //
-       var params = new BufferParameters();
-       params.distances = [Number($("#txtRadius").val())];
-       params.geodesic=true;
-       params.outSpatialReference = map.spatialReference;
-       params.unit = GeometryService.UNIT_METER;
-       params.geometries = [point];
-       esriConfig.defaults.geometryService.buffer(params, showBuffer);                    
-   }		   
+	   
 	var scalebar = new Scalebar({
     map: map,
     scalebarUnit: "dual"
        });
-		   
-   function queryGrids(){
-       var qryObj=new Query();
-       qryObj.where="OBJECTID>0";  
-       qryObj.geometry=bufferGeom.geometry;
-       qryObj.returnGeometry=true;
-       var qryTaskObj=new QueryTask("https://services7.arcgis.com/V0D79gP9Almspf9E/arcgis/rest/services/mgrs100/FeatureServer/0");
-       qryTaskObj.execute(qryObj,gridQueryResults,errorGridResults);
-   }
-   
-   function gridQueryResults(featureSet){
+
+	function gridQueryResults(featureSet){
        if(featureSet.features.length>0){
            for(var i=0;i<featureSet.features.length;i++){
                var gridGeom=featureSet.features[i];
@@ -108,9 +100,20 @@
            alert("No features found");
        }
    }
-   function errorGridResults(error){
+	function errorGridResults(error){
        alert("Problem in Query"); 
+   }	   
+   function queryGrids(){
+       var qryObj=new Query();
+       qryObj.where="OBJECTID>0";  
+       qryObj.geometry=bufferGeom.geometry;
+       qryObj.returnGeometry=true;
+       var qryTaskObj=new QueryTask("https://services7.arcgis.com/V0D79gP9Almspf9E/arcgis/rest/services/mgrs100/FeatureServer/0");
+       qryTaskObj.execute(qryObj,gridQueryResults,errorGridResults);
    }
+   
+   
+   
    
    var outSR = new SpatialReference(4326);
    var gridIncrement=0,projectedGeoms=[];                
