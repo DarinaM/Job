@@ -35,6 +35,15 @@
            zoom: 10,
            slider: true
            }); 
+	function clearGraphics(){
+       if(gridArray.length>0){
+           for(var i=0;i<gridArray.length;i++){
+               map.graphics.remove(gridArray[i]);
+           }
+           gridArray=[]; 
+       }
+   }
+		   
 var scalebar = new Scalebar({
     map: map,
     scalebarUnit: "dual"
@@ -100,14 +109,7 @@ var scalebar = new Scalebar({
    function errorGridResults(error){
        alert("Problem in Query"); 
    }
-   function clearGraphics(){
-       if(gridArray.length>0){
-           for(var i=0;i<gridArray.length;i++){
-               map.graphics.remove(gridArray[i]);
-           }
-           gridArray=[]; 
-       }
-   }
+   
    var outSR = new SpatialReference(4326);
    var gridIncrement=0,projectedGeoms=[];                
    function projectGrids(){         
