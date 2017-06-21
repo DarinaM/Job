@@ -136,18 +136,8 @@
             summerisePoints();
         });
     }
-    
-    function pointQueryResults(featureSet){                             
-        calculateValues(featureSet);
-        summerisePoints();
-    }
-    function pointQueryError(error){      
-        summerisePoints();
-        gridIncrement++;
-    }    
-    
-    var gridStats=[];
-    function calculateValues(featureSet){                    
+	var gridStats=[];
+	function calculateValues(featureSet){                    
         var popCount=0;
         var conlevel=0;
         var obj=new Object();                    
@@ -167,7 +157,15 @@
              }
              gridStats.push(obj);
              applyColor(obj.cCnt,popCount);          
-         }                
+         }             
+    function pointQueryResults(featureSet){                             
+        calculateValues(featureSet);
+        summerisePoints();
+    }
+    function pointQueryError(error){      
+        summerisePoints();
+        gridIncrement++;
+    }   
          
     function applyColor(cCnt,pCnt){
         
