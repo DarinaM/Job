@@ -45,6 +45,16 @@
            gridArray=[]; 
        }
    }
+ 	function showBuffer(bufferedGeometries){
+		arrayUtils.forEach(bufferedGeometries, function (geometry) {
+		var bufferedGeometry = new Graphic(geometry, bufferSymb);
+		map.graphics.add(bufferedGeometry);  
+		map.setExtent(geometry.getExtent());
+		bufferGeom=bufferedGeometry;
+       });
+       clearGraphics();
+       queryGrids();
+   }
 	function createBuffer(point){ //
        var params = new BufferParameters();
        params.distances = [Number($("#txtRadius").val())];
@@ -54,7 +64,7 @@
        params.geometries = [point];
        esriConfig.defaults.geometryService.buffer(params, showBuffer);                    
    }		   
-var scalebar = new Scalebar({
+	var scalebar = new Scalebar({
     map: map,
     scalebarUnit: "dual"
        });
@@ -76,16 +86,6 @@ var scalebar = new Scalebar({
        createBuffer(point);
    });
    
-   function showBuffer(bufferedGeometries){
-       arrayUtils.forEach(bufferedGeometries, function (geometry) {
-           var bufferedGeometry = new Graphic(geometry, bufferSymb);
-           map.graphics.add(bufferedGeometry);  
-           map.setExtent(geometry.getExtent());
-           bufferGeom=bufferedGeometry;
-       });
-       clearGraphics();
-       queryGrids();
-   }
    function queryGrids(){
        var qryObj=new Query();
        qryObj.where="OBJECTID>0";  
