@@ -82,7 +82,7 @@
        createBuffer(point);
    });
 	var scalebar = new Scalebar({
-    map: map,
+    map,//: map,
     scalebarUnit: "dual"
        });
 
