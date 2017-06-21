@@ -80,8 +80,7 @@
        });
        clearGraphics();
        queryGrids();
-   }
-	   
+   }   
 	var scalebar = new Scalebar({
     map: map,
     scalebarUnit: "dual"
@@ -111,10 +110,6 @@
        var qryTaskObj=new QueryTask("https://services7.arcgis.com/V0D79gP9Almspf9E/arcgis/rest/services/mgrs100/FeatureServer/0");
        qryTaskObj.execute(qryObj,gridQueryResults,errorGridResults);
    }
-   
-   
-   
-   
    var outSR = new SpatialReference(4326);
    var gridIncrement=0,projectedGeoms=[];
 	function summerisePoints(){   
