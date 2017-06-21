@@ -36,7 +36,24 @@
            slider: true
            }); 
 	var gridArray=[];
-	
+       
+    var bufferSymb = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([105, 105, 255]),2), new Color([255, 255, 0, 0.25]));
+    var gridSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([255, 122, 0]),2), new Color([255, 122, 0, 0.5]));
+    var bufferGeom=null;
+    $("#btnBuffer").click(function(){                    
+        if(bufferGeom!=null){
+            clearGraphics();
+            map.graphics.remove(bufferGeom);
+        } 
+        var xLong=Number($("#txtLong").val());
+        var yLat=Number($("#txtLat").val());                   
+        
+       //var point = new Point([-77.468,38.854],new SpatialReference({ wkid:4326 }));
+       var point = new Point([xLong,yLat],new SpatialReference({ wkid:4326 }));
+       createBuffer(point);
+   });
+   
 	function clearGraphics(){
        if(gridArray.length>0){
            for(var i=0;i<gridArray.length;i++){
@@ -68,24 +85,7 @@
     map: map,
     scalebarUnit: "dual"
        });
-       
-    var bufferSymb = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL,
-            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([105, 105, 255]),2), new Color([255, 255, 0, 0.25]));
-    var gridSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([255, 122, 0]),2), new Color([255, 122, 0, 0.5]));
-    var bufferGeom=null;
-    $("#btnBuffer").click(function(){                    
-        if(bufferGeom!=null){
-            clearGraphics();
-            map.graphics.remove(bufferGeom);
-        } 
-        var xLong=Number($("#txtLong").val());
-        var yLat=Number($("#txtLat").val());                   
-        
-       //var point = new Point([-77.468,38.854],new SpatialReference({ wkid:4326 }));
-       var point = new Point([xLong,yLat],new SpatialReference({ wkid:4326 }));
-       createBuffer(point);
-   });
-   
+		   
    function queryGrids(){
        var qryObj=new Query();
        qryObj.where="OBJECTID>0";  
