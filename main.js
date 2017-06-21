@@ -116,7 +116,19 @@
    
    
    var outSR = new SpatialReference(4326);
-   var gridIncrement=0,projectedGeoms=[];                
+   var gridIncrement=0,projectedGeoms=[];
+	function summerisePoints(){   
+        if(gridIncrement<=projectedGeoms.length)
+        {        
+            var qryObj=new Query();
+            qryObj.where="FID>0";
+            qryObj.outFields=["*"];
+            qryObj.geometry=projectedGeoms[gridIncrement];                          
+            qryObj.returnGeometry=false;
+            var qryTaskObj=new QueryTask("https://services7.arcgis.com/V0D79gP9Almspf9E/arcgis/rest/services/RandomSterlingdata/FeatureServer/0");
+            qryTaskObj.execute(qryObj,pointQueryResults,pointQueryError);                        
+        }
+    }	   
    function projectGrids(){         
        
         var gridGeoms=[];
@@ -129,18 +141,7 @@
             summerisePoints();
         });
     }
-    function summerisePoints(){   
-        if(gridIncrement<=projectedGeoms.length)
-        {        
-            var qryObj=new Query();
-            qryObj.where="FID>0";
-            qryObj.outFields=["*"];
-            qryObj.geometry=projectedGeoms[gridIncrement];                          
-            qryObj.returnGeometry=false;
-            var qryTaskObj=new QueryTask("https://services7.arcgis.com/V0D79gP9Almspf9E/arcgis/rest/services/RandomSterlingdata/FeatureServer/0");
-            qryTaskObj.execute(qryObj,pointQueryResults,pointQueryError);                        
-        }
-    }
+    
     function pointQueryResults(featureSet){                             
         calculateValues(featureSet);
         summerisePoints();
