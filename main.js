@@ -50,6 +50,16 @@
            gridArray=[]; 
        }
    }
+	function showBuffer(bufferedGeometries){
+		arrayUtils.forEach(bufferedGeometries, function (geometry) {
+		var bufferedGeometry = new Graphic(geometry, bufferSymb);
+		map.graphics.add(bufferedGeometry);  
+		map.setExtent(geometry.getExtent());
+		bufferGeom=bufferedGeometry;
+       });
+       clearGraphics();
+       queryGrids();
+   }   
 	function createBuffer(point){ //
        var params = new BufferParameters();
        params.distances = [Number($("#txtRadius").val())];
@@ -71,16 +81,6 @@
        var point = new Point([xLong,yLat],new SpatialReference({ wkid:4326 }));
        createBuffer(point);
    });
-	function showBuffer(bufferedGeometries){
-		arrayUtils.forEach(bufferedGeometries, function (geometry) {
-		var bufferedGeometry = new Graphic(geometry, bufferSymb);
-		map.graphics.add(bufferedGeometry);  
-		map.setExtent(geometry.getExtent());
-		bufferGeom=bufferedGeometry;
-       });
-       clearGraphics();
-       queryGrids();
-   }   
 	var scalebar = new Scalebar({
     map: map,
     scalebarUnit: "dual"
