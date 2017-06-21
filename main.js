@@ -20,7 +20,7 @@
            Navigation,registry,on,
            Graphic, InfoTemplate, SimpleMarkerSymbol,Scalebar,
            SimpleLineSymbol, SimpleFillSymbol, SimpleRenderer,
-           esriConfig, Color,OverlayLayers,dom
+           esriConfig, Color,OverlayLayers
    ) 
    {
        parser.parse(); 
@@ -163,7 +163,6 @@ var scalebar = new Scalebar({
             //	obj.cCnt=conlevel;
              }
              gridStats.push(obj);
-             console.log(gridStats[i]);
              applyColor(obj.cCnt,popCount);          
          }                
          
