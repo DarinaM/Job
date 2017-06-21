@@ -45,7 +45,15 @@
            gridArray=[]; 
        }
    }
-		   
+	function createBuffer(point){ //
+       var params = new BufferParameters();
+       params.distances = [Number($("#txtRadius").val())];
+       params.geodesic=true;
+       params.outSpatialReference = map.spatialReference;
+       params.unit = GeometryService.UNIT_METER;
+       params.geometries = [point];
+       esriConfig.defaults.geometryService.buffer(params, showBuffer);                    
+   }		   
 var scalebar = new Scalebar({
     map: map,
     scalebarUnit: "dual"
@@ -67,15 +75,7 @@ var scalebar = new Scalebar({
        var point = new Point([xLong,yLat],new SpatialReference({ wkid:4326 }));
        createBuffer(point);
    });
-   function createBuffer(point){ //
-       var params = new BufferParameters();
-       params.distances = [Number($("#txtRadius").val())];
-       params.geodesic=true;
-       params.outSpatialReference = map.spatialReference;
-       params.unit = GeometryService.UNIT_METER;
-       params.geometries = [point];
-       esriConfig.defaults.geometryService.buffer(params, showBuffer);                    
-   }
+   
    function showBuffer(bufferedGeometries){
        arrayUtils.forEach(bufferedGeometries, function (geometry) {
            var bufferedGeometry = new Graphic(geometry, bufferSymb);
