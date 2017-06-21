@@ -29,12 +29,14 @@
        esriConfig.defaults.geometryService =
                new GeometryService("https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer");
        
-    var map = new Map("mapDiv", { 
+	var map = new Map("mapDiv", { 
            basemap: "topo",
            center: [-77.43, 39.01],
            zoom: 10,
            slider: true
            }); 
+	var gridArray=[];
+	
 	function clearGraphics(){
        if(gridArray.length>0){
            for(var i=0;i<gridArray.length;i++){
@@ -92,7 +94,7 @@ var scalebar = new Scalebar({
        var qryTaskObj=new QueryTask("https://services7.arcgis.com/V0D79gP9Almspf9E/arcgis/rest/services/mgrs100/FeatureServer/0");
        qryTaskObj.execute(qryObj,gridQueryResults,errorGridResults);
    }
-   var gridArray=[];
+   
    function gridQueryResults(featureSet){
        if(featureSet.features.length>0){
            for(var i=0;i<featureSet.features.length;i++){
